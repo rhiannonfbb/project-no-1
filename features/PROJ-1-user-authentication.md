@@ -42,7 +42,120 @@
 <!-- Sections below are added by subsequent skills -->
 
 ## Tech Design (Solution Architect)
-_To be added by /architecture_
+
+### A) Component Structure (Visual Tree)
+
+```
+App Layout
+├── Navigation Bar
+│   ├── Logo/Home Link
+│   ├── Language Switcher (DE/EN) → added by PROJ-6
+│   └── User Menu
+│       ├── [If logged out] → "Sign In" button
+│       ├── [If logged out] → "Sign Up" button
+│       └── [If logged in] → User Avatar + Dropdown
+│           └── "Log Out" option
+│
+├── Login Page (/login)
+│   ├── Email Input Field
+│   ├── Password Input Field
+│   ├── "Log In" Button
+│   ├── Error Message Area
+│   └── "Don't have an account? Sign up" Link
+│
+├── Sign Up Page (/signup)
+│   ├── Email Input Field
+│   ├── Password Input Field
+│   ├── Password Requirements Hint (8+ characters)
+│   ├── "Sign Up" Button
+│   ├── Error Message Area
+│   ├── Success Message (Email confirmation sent)
+│   └── "Already have an account? Log in" Link
+│
+└── Protected Action Guard (invisible component)
+    └── Checks login status before allowing Submit/Vote actions
+```
+
+### B) Data Model (Plain Language)
+
+**User Account Information (stored in Supabase Auth):**
+- Email address (unique identifier)
+- Encrypted password (never stored in plain text)
+- User ID (generated automatically)
+- Email confirmation status (confirmed vs. pending)
+- Account creation timestamp
+
+**Session Information (stored in browser):**
+- Login token (expires after 1 hour of inactivity)
+- Refresh token (allows automatic re-login for 30 days)
+- User's current login state (logged in vs. logged out)
+
+**Where data lives:**
+- User accounts → Supabase Auth service (cloud database)
+- Session tokens → Browser's secure storage (localStorage)
+- No passwords stored locally - always verified against Supabase
+
+### C) Tech Decisions (Justified for PM)
+
+**Why Supabase Auth instead of building our own?**
+- **Security:** Supabase handles password encryption, token generation, and security best practices automatically. Building this ourselves would take weeks and risk security vulnerabilities.
+- **Email confirmation:** Supabase sends confirmation emails automatically - we don't need to set up an email service.
+- **Speed:** Integration takes hours, not weeks.
+
+**Why email/password (not Google/Facebook login)?**
+- **Simplicity:** OAuth adds complexity and approval processes with third parties.
+- **MVP Focus:** Based on the PRD's "Non-Goals" section, we're explicitly avoiding social login for v1.
+- **Future-proof:** We can add social login later if needed - Supabase supports it.
+
+**Why public viewing without login?**
+- **Lower barrier to entry:** Users can explore ideas before committing to registration.
+- **Virality:** Allows sharing links to specific ideas with non-users.
+- **Conversion funnel:** "Browse → See value → Register to vote" is better UX than forcing immediate signup.
+
+**Why redirect to login (not inline popups)?**
+- **Clear user flow:** Users understand they're moving to a login step.
+- **Better mobile UX:** Full-page forms work better on small screens.
+- **Return-to-action:** After login, we can automatically redirect users back to what they wanted to do (e.g., vote on a specific idea).
+
+### D) Dependencies
+
+**New packages to install:**
+- `@supabase/supabase-js` - Official Supabase client for authentication and session management
+- `zod` - Input validation for email/password formats (already in tech stack)
+- `react-hook-form` - Form handling with error states (already in tech stack)
+
+**Already available (no install needed):**
+- shadcn/ui components: Button, Input, Label, Card, Alert for UI
+- Next.js App Router for page routing
+
+### E) User Flow Summary
+
+**Registration Flow:**
+1. User visits `/signup` page
+2. Enters email + password (minimum 8 characters)
+3. Clicks "Sign Up"
+4. Supabase creates account + sends confirmation email
+5. User sees success message: "Check your email to confirm your account"
+6. After email confirmation, user can log in
+
+**Login Flow:**
+1. User visits `/login` page
+2. Enters email + password
+3. Clicks "Log In"
+4. Supabase verifies credentials
+5. Session token stored in browser
+6. User redirected to homepage (or back to where they wanted to go)
+
+**Protected Action Flow:**
+1. Guest user tries to vote on an idea
+2. System detects: not logged in
+3. User redirected to `/login` with a message: "Please log in to vote"
+4. After successful login → automatically redirected back to the idea to complete their vote
+
+**Logout Flow:**
+1. User clicks "Log Out" in navigation menu
+2. Session cleared from browser
+3. User redirected to homepage (can still view ideas)
 
 ## QA Test Results
 _To be added by /qa_
