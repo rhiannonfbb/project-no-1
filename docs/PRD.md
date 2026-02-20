@@ -24,6 +24,7 @@ Ein Voting Board, auf dem Nutzer Produktideen einreichen und per Upvote/Downvote
 | P0 (MVP) | PROJ-3: Idea Submission | Planned |
 | P0 (MVP) | PROJ-4: Voting System | Planned |
 | P0 (MVP) | PROJ-5: Admin Moderation & Status-Tracking | Planned |
+| P1 (Post-MVP) | PROJ-6: Language Switcher (DE/EN) | Planned |
 
 ## Success Metrics
 - Anzahl eingereichte Ideen pro Woche
