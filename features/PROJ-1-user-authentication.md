@@ -1,8 +1,8 @@
 # PROJ-1: User Authentication
 
-## Status: Planned
+## Status: In Review
 **Created:** 2026-02-20
-**Last Updated:** 2026-02-20
+**Last Updated:** 2026-02-21
 
 ## Dependencies
 - None (Basis-Feature)
@@ -15,15 +15,15 @@
 - As a visitor, I want to browse the idea board without logging in so that I can see what the product is about before registering
 
 ## Acceptance Criteria
-- [ ] User can register with email + password
-- [ ] User receives email confirmation after registration
-- [ ] User can log in with email + password
-- [ ] User can log out
-- [ ] Login state persists across page reloads (session management)
-- [ ] Unauthenticated users can view the public idea board (read-only)
-- [ ] Unauthenticated users are redirected to login when trying to submit/vote
-- [ ] Password must be at least 8 characters
-- [ ] Error messages are shown for: invalid email, weak password, wrong credentials, email already registered
+- [x] User can register with email + password
+- [x] User receives email confirmation after registration
+- [x] User can log in with email + password
+- [x] User can log out
+- [x] Login state persists across page reloads (session management)
+- [x] Unauthenticated users can view the public idea board (read-only)
+- [x] Unauthenticated users are redirected to login when trying to submit/vote
+- [x] Password must be at least 8 characters
+- [x] Error messages are shown for: invalid email, weak password, wrong credentials, email already registered
 
 ## Edge Cases
 - What happens if user registers with an already-used email? → Show "Email already registered" error
@@ -156,6 +156,29 @@ App Layout
 1. User clicks "Log Out" in navigation menu
 2. Session cleared from browser
 3. User redirected to homepage (can still view ideas)
+
+## Implementation Notes (Frontend + Backend)
+
+### Files Created
+- `src/app/login/page.tsx` — Login form with Zod validation, error messages, returnTo redirect
+- `src/app/signup/page.tsx` — Signup form with email confirmation success state
+- `src/app/auth/callback/route.ts` — PKCE code exchange endpoint for email confirmation links
+- `src/components/navbar.tsx` — Sticky navbar with auth-aware Sign In / Sign Up / User menu
+- `src/components/auth-guard.tsx` — Wrapper component that redirects unauthenticated users to /login
+- `src/components/client-providers.tsx` — Client-side AuthProvider + Navbar wrapper for layout
+- `src/hooks/use-auth.tsx` — AuthContext with signUp, signIn, signOut and session state
+- `src/lib/supabase.ts` — Browser Supabase client
+- `src/lib/supabase-server.ts` — Server-side Supabase client using @supabase/ssr (cookie-based)
+- `src/lib/validations.ts` — Zod schemas for login and signup forms
+- `src/proxy.ts` — Next.js 16 Proxy (formerly middleware) for session cookie refresh
+- `.env.local.example` — Documentation of required environment variables
+
+### Supabase Dashboard Setup Required
+Before testing in production, configure in Supabase Dashboard:
+1. **Authentication → URL Configuration:**
+   - Site URL: `https://your-domain.com`
+   - Redirect URLs: `https://your-domain.com/auth/callback`
+2. **Authentication → Email:** Enable email confirmations
 
 ## QA Test Results
 _To be added by /qa_
