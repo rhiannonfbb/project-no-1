@@ -12,12 +12,12 @@
 
 | ID | Feature | Status | Spec | Created |
 |----|---------|--------|------|---------|
-| PROJ-1 | User Authentication | In Review | [Spec](PROJ-1-user-authentication.md) | 2026-02-20 |
-| PROJ-2 | Public Idea Board | In Review | [Spec](PROJ-2-public-idea-board.md) | 2026-02-20 |
-| PROJ-3 | Idea Submission | In Review | [Spec](PROJ-3-idea-submission.md) | 2026-02-20 |
-| PROJ-4 | Voting System | In Review | [Spec](PROJ-4-voting-system.md) | 2026-02-20 |
-| PROJ-5 | Admin Moderation & Status-Tracking | In Review | [Spec](PROJ-5-admin-moderation.md) | 2026-02-20 |
-| PROJ-6 | Language Switcher (DE/EN) | In Review | [Spec](PROJ-6-language-switcher.md) | 2026-02-20 |
+| PROJ-1 | User Authentication | Deployed | [Spec](PROJ-1-user-authentication.md) | 2026-02-20 |
+| PROJ-2 | Public Idea Board | Deployed | [Spec](PROJ-2-public-idea-board.md) | 2026-02-20 |
+| PROJ-3 | Idea Submission | Deployed | [Spec](PROJ-3-idea-submission.md) | 2026-02-20 |
+| PROJ-4 | Voting System | Deployed | [Spec](PROJ-4-voting-system.md) | 2026-02-20 |
+| PROJ-5 | Admin Moderation & Status-Tracking | Deployed | [Spec](PROJ-5-admin-moderation.md) | 2026-02-20 |
+| PROJ-6 | Language Switcher (DE/EN) | Deployed | [Spec](PROJ-6-language-switcher.md) | 2026-02-20 |
 
 <!-- Add features above this line -->
 
