@@ -44,6 +44,10 @@ const STATUS_OPTIONS: { value: IdeaStatus; labelKey: string }[] = [
   { value: "done",        labelKey: "status.done" },
 ]
 
+// Module-level cache: survives locale switches and component re-mounts within the same session.
+// Key: "<ideaId>:<locale>", Value: translated title + description.
+const sessionTranslationCache = new Map<string, { title: string; description: string }>()
+
 export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardProps) {
   const router = useRouter()
   const { t, locale } = useLanguage()
@@ -66,16 +70,28 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
       return
     }
 
-    // Use cached translation if available
-    const cached = idea.translations?.[locale]
-    if (cached) {
-      setTranslatedTitle(cached.title)
-      setTranslatedDesc(cached.description)
+    const cacheKey = `${idea.id}:${locale}`
+
+    // 1. Check session-level memory cache (survives locale switches)
+    const memCached = sessionTranslationCache.get(cacheKey)
+    if (memCached) {
+      setTranslatedTitle(memCached.title)
+      setTranslatedDesc(memCached.description)
       setTranslationState("done")
       return
     }
 
-    // Fetch translation from API
+    // 2. Check DB-backed cache stored in the idea prop (from server render)
+    const dbCached = idea.translations?.[locale]
+    if (dbCached) {
+      sessionTranslationCache.set(cacheKey, dbCached)
+      setTranslatedTitle(dbCached.title)
+      setTranslatedDesc(dbCached.description)
+      setTranslationState("done")
+      return
+    }
+
+    // 3. Fetch from DeepL via API route (also writes back to DB)
     setTranslationState("loading")
     fetch("/api/translate", {
       method: "POST",
@@ -85,6 +101,8 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
       .then((r) => r.json())
       .then((data: { title?: string; description?: string }) => {
         if (data.title && data.description) {
+          const translation = { title: data.title, description: data.description }
+          sessionTranslationCache.set(cacheKey, translation)
           setTranslatedTitle(data.title)
           setTranslatedDesc(data.description)
           setTranslationState("done")
