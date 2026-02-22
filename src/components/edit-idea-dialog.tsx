@@ -88,7 +88,7 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
               {...register("title")}
             />
             {errors.title && (
-              <p className="text-sm text-destructive" role="alert">{errors.title.message}</p>
+              <p className="text-sm text-destructive" role="alert">{t(errors.title.message!)}</p>
             )}
           </div>
 
@@ -104,7 +104,7 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
               {...register("description")}
             />
             {errors.description && (
-              <p className="text-sm text-destructive" role="alert">{errors.description.message}</p>
+              <p className="text-sm text-destructive" role="alert">{t(errors.description.message!)}</p>
             )}
           </div>
 

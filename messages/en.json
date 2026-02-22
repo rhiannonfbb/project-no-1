@@ -3,7 +3,14 @@
     "voteBoard": "VoteBoard",
     "signIn": "Sign In",
     "signUp": "Sign Up",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "switchLanguageTo": "Switch language to"
+  },
+  "validation": {
+    "titleRequired": "Title is required.",
+    "titleMax": "Title must be at most 100 characters.",
+    "descriptionRequired": "Description is required.",
+    "descriptionMax": "Description must be at most 2000 characters."
   },
   "ideas": {
     "title": "Feature Ideas",

@@ -153,7 +153,7 @@ export default function SignupPage() {
               />
               {errors.email && (
                 <p className="text-sm text-destructive" role="alert">
-                  {errors.email.message}
+                  {t(errors.email.message!)}
                 </p>
               )}
             </div>
@@ -170,7 +170,7 @@ export default function SignupPage() {
               />
               {errors.password ? (
                 <p className="text-sm text-destructive" role="alert">
-                  {errors.password.message}
+                  {t(errors.password.message!)}
                 </p>
               ) : (
                 <p className="text-sm text-muted-foreground">

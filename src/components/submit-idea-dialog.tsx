@@ -107,7 +107,7 @@ export function SubmitIdeaDialog() {
               {...register("title")}
             />
             {errors.title && (
-              <p className="text-sm text-destructive" role="alert">{errors.title.message}</p>
+              <p className="text-sm text-destructive" role="alert">{t(errors.title.message!)}</p>
             )}
           </div>
 
@@ -124,7 +124,7 @@ export function SubmitIdeaDialog() {
               {...register("description")}
             />
             {errors.description && (
-              <p className="text-sm text-destructive" role="alert">{errors.description.message}</p>
+              <p className="text-sm text-destructive" role="alert">{t(errors.description.message!)}</p>
             )}
           </div>
 

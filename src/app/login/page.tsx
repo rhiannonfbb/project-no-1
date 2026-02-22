@@ -30,7 +30,9 @@ function LoginForm() {
   const { t } = useLanguage()
   const searchParams = useSearchParams()
   const returnTo = searchParams.get("returnTo")
-  const action = searchParams.get("action")
+  // BUG-8: Truncate action param to prevent phishing via crafted URLs
+  const rawAction = searchParams.get("action")
+  const action = rawAction ? rawAction.slice(0, 50) : null
   const errorParam = searchParams.get("error")
 
   const urlError = errorParam
@@ -103,7 +105,7 @@ function LoginForm() {
             />
             {errors.email && (
               <p className="text-sm text-destructive" role="alert">
-                {errors.email.message}
+                {t(errors.email.message!)}
               </p>
             )}
           </div>
@@ -120,7 +122,7 @@ function LoginForm() {
             />
             {errors.password && (
               <p className="text-sm text-destructive" role="alert">
-                {errors.password.message}
+                {t(errors.password.message!)}
               </p>
             )}
           </div>

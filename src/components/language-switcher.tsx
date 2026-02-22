@@ -7,7 +7,7 @@ import type { Locale } from "@/types"
 const LOCALES: Locale[] = ["de", "en"]
 
 export function LanguageSwitcher() {
-  const { locale, setLocale } = useLanguage()
+  const { locale, setLocale, t } = useLanguage()
 
   return (
     <div className="flex items-center gap-0.5 rounded-md border p-0.5">
@@ -19,7 +19,7 @@ export function LanguageSwitcher() {
           className="h-6 px-2 text-xs font-medium uppercase"
           onClick={() => setLocale(l)}
           aria-pressed={locale === l}
-          aria-label={`Switch language to ${l.toUpperCase()}`}
+          aria-label={`${t("nav.switchLanguageTo")} ${l.toUpperCase()}`}
         >
           {l.toUpperCase()}
         </Button>

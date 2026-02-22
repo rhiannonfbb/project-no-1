@@ -3,7 +3,14 @@
     "voteBoard": "VoteBoard",
     "signIn": "Anmelden",
     "signUp": "Registrieren",
-    "signOut": "Abmelden"
+    "signOut": "Abmelden",
+    "switchLanguageTo": "Sprache wechseln zu"
+  },
+  "validation": {
+    "titleRequired": "Titel ist erforderlich.",
+    "titleMax": "Titel darf maximal 100 Zeichen lang sein.",
+    "descriptionRequired": "Beschreibung ist erforderlich.",
+    "descriptionMax": "Beschreibung darf maximal 2000 Zeichen lang sein."
   },
   "ideas": {
     "title": "Feature-Ideen",

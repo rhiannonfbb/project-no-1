@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ChevronUp, ChevronDown } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/hooks/use-auth"
+import { useLanguage } from "@/hooks/use-language"
 import { cn } from "@/lib/utils"
 
 interface VoteButtonsProps {
@@ -15,6 +16,7 @@ interface VoteButtonsProps {
 
 export function VoteButtons({ ideaId, initialScore, initialUserVote }: VoteButtonsProps) {
   const { user } = useAuth()
+  const { t } = useLanguage()
   const [score, setScore] = useState(initialScore)
   const [userVote, setUserVote] = useState<1 | -1 | null>(initialUserVote)
   const [loading, setLoading] = useState(false)
@@ -80,7 +82,7 @@ export function VoteButtons({ ideaId, initialScore, initialUserVote }: VoteButto
         )}
         onClick={() => handleVote(1)}
         disabled={loading}
-        aria-label="Upvote"
+        aria-label={t("vote.upvote")}
       >
         <ChevronUp className="h-5 w-5" />
       </Button>
@@ -103,7 +105,7 @@ export function VoteButtons({ ideaId, initialScore, initialUserVote }: VoteButto
         )}
         onClick={() => handleVote(-1)}
         disabled={loading}
-        aria-label="Downvote"
+        aria-label={t("vote.downvote")}
       >
         <ChevronDown className="h-5 w-5" />
       </Button>

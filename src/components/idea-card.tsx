@@ -48,6 +48,10 @@ const STATUS_OPTIONS: { value: IdeaStatus; labelKey: string }[] = [
 // Key: "<ideaId>:<locale>", Value: translated title + description.
 const sessionTranslationCache = new Map<string, { title: string; description: string }>()
 
+// BUG-9: Deduplication of in-flight translation requests.
+// Multiple cards for the same idea share one Promise instead of each firing a separate DeepL call.
+const inflightTranslations = new Map<string, Promise<{ title: string; description: string } | null>>()
+
 export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardProps) {
   const router = useRouter()
   const { t, locale } = useLanguage()
@@ -92,25 +96,40 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
     }
 
     // 3. Fetch from DeepL via API route (also writes back to DB)
+    // BUG-9: Share one in-flight Promise across all cards rendering the same idea+locale.
+    // BUG-10: 5 s timeout so a hung DeepL call never blocks the UI indefinitely.
     setTranslationState("loading")
-    fetch("/api/translate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ideaId: idea.id, targetLocale: locale }),
-    })
-      .then((r) => r.json())
-      .then((data: { title?: string; description?: string }) => {
-        if (data.title && data.description) {
-          const translation = { title: data.title, description: data.description }
-          sessionTranslationCache.set(cacheKey, translation)
-          setTranslatedTitle(data.title)
-          setTranslatedDesc(data.description)
-          setTranslationState("done")
-        } else {
-          setTranslationState("error")
-        }
+
+    let promise = inflightTranslations.get(cacheKey)
+    if (!promise) {
+      promise = fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ideaId: idea.id, targetLocale: locale }),
+        signal: AbortSignal.timeout(5000),
       })
-      .catch(() => setTranslationState("error"))
+        .then((r) => r.json())
+        .then((data: { title?: string; description?: string }) =>
+          data.title && data.description
+            ? { title: data.title, description: data.description }
+            : null
+        )
+        .catch(() => null)
+        .finally(() => inflightTranslations.delete(cacheKey))
+
+      inflightTranslations.set(cacheKey, promise)
+    }
+
+    promise.then((translation) => {
+      if (translation) {
+        sessionTranslationCache.set(cacheKey, translation)
+        setTranslatedTitle(translation.title)
+        setTranslatedDesc(translation.description)
+        setTranslationState("done")
+      } else {
+        setTranslationState("error")
+      }
+    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idea.id, locale, needsTranslation])
 
