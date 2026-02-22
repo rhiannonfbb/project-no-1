@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useAuth } from "@/hooks/use-auth"
+import { useLanguage } from "@/hooks/use-language"
 import { loginSchema, type LoginFormValues } from "@/lib/validations"
 
 import { Button } from "@/components/ui/button"
@@ -24,19 +25,17 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 import { AlertCircle, Loader2 } from "lucide-react"
 
-const AUTH_ERROR_MESSAGES: Record<string, string> = {
-  auth_failed:
-    "The confirmation link is invalid or has expired. Please sign up again or request a new link.",
-}
-
 function LoginForm() {
   const { signIn } = useAuth()
+  const { t } = useLanguage()
   const searchParams = useSearchParams()
   const returnTo = searchParams.get("returnTo")
   const action = searchParams.get("action")
   const errorParam = searchParams.get("error")
 
-  const urlError = errorParam ? (AUTH_ERROR_MESSAGES[errorParam] ?? "Something went wrong. Please try again.") : null
+  const urlError = errorParam
+    ? (errorParam === "auth_failed" ? t("auth.errorAuthFailed") : t("auth.errorUnexpected"))
+    : null
 
   const [serverError, setServerError] = useState<string | null>(urlError)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -67,7 +66,7 @@ function LoginForm() {
       // eslint-disable-next-line react-hooks/immutability
       window.location.href = safeReturnTo
     } catch {
-      setServerError("An unexpected error occurred. Please try again.")
+      setServerError(t("auth.errorUnexpected"))
       setIsSubmitting(false)
     }
   }
@@ -75,11 +74,11 @@ function LoginForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+        <CardTitle className="text-2xl font-bold">{t("auth.welcomeBack")}</CardTitle>
         <CardDescription>
           {action
-            ? `Please log in to ${action}.`
-            : "Enter your credentials to sign in."}
+            ? t("auth.loginForAction", { action })
+            : t("auth.loginDescription")}
         </CardDescription>
       </CardHeader>
 
@@ -93,11 +92,11 @@ function LoginForm() {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("auth.email")}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="you@example.com"
+              placeholder={t("auth.emailPlaceholder")}
               autoComplete="email"
               aria-invalid={!!errors.email}
               {...register("email")}
@@ -110,11 +109,11 @@ function LoginForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("auth.password")}</Label>
             <Input
               id="password"
               type="password"
-              placeholder="Your password"
+              placeholder={t("auth.passwordPlaceholder")}
               autoComplete="current-password"
               aria-invalid={!!errors.password}
               {...register("password")}
@@ -132,25 +131,25 @@ function LoginForm() {
             type="submit"
             className="w-full"
             disabled={isSubmitting}
-            aria-label="Sign in"
+            aria-label={t("auth.signIn")}
           >
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing in...
+                {t("auth.signingIn")}
               </>
             ) : (
-              "Sign In"
+              t("auth.signIn")
             )}
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            {t("auth.noAccount")}{" "}
             <Link
               href="/signup"
               className="font-medium text-primary underline-offset-4 hover:underline"
             >
-              Sign up
+              {t("auth.signUpLink")}
             </Link>
           </p>
         </CardFooter>

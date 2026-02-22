@@ -1,21 +1,29 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import "./globals.css";
 import { ClientProviders } from "@/components/client-providers";
+import type { Locale } from "@/types";
 
 export const metadata: Metadata = {
   title: "VoteBoard - Feature Voting",
   description: "Submit and vote on product ideas",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Read locale from cookie for SSR — prevents flash of wrong language
+  const cookieStore = await cookies();
+  const rawLocale = cookieStore.get("NEXT_LOCALE")?.value;
+  const initialLocale: Locale =
+    rawLocale === "de" || rawLocale === "en" ? rawLocale : "de";
+
   return (
-    <html lang="en">
+    <html lang={initialLocale}>
       <body className="antialiased">
-        <ClientProviders>
+        <ClientProviders initialLocale={initialLocale}>
           {children}
         </ClientProviders>
       </body>

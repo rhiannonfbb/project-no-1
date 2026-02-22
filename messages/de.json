@@ -1,0 +1,102 @@
+{
+  "nav": {
+    "voteBoard": "VoteBoard",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "signOut": "Abmelden"
+  },
+  "ideas": {
+    "title": "Feature-Ideen",
+    "subtitle_one": "{{count}} Idee · Stimme für die Features ab, die du dir wünschst",
+    "subtitle_other": "{{count}} Ideen · Stimme für die Features ab, die du dir wünschst",
+    "submitIdea": "Idee einreichen",
+    "searchPlaceholder": "Ideen durchsuchen...",
+    "clearSearch": "Suche löschen",
+    "mostVotes": "Meiste Votes",
+    "newest": "Neueste",
+    "oldest": "Älteste",
+    "filterAll": "Alle",
+    "clearFilters": "Filter zurücksetzen",
+    "emptyTitle": "Noch keine Ideen.",
+    "emptySubtitle": "Sei der Erste, der eine Idee einreicht!",
+    "noResultsTitle": "Keine Ideen gefunden.",
+    "noResultsSubtitle": "Versuche andere Suchbegriffe oder",
+    "noResultsClear": "setze die Filter zurück"
+  },
+  "status": {
+    "new": "Neu",
+    "planned": "Geplant",
+    "in_progress": "In Bearbeitung",
+    "done": "Erledigt"
+  },
+  "submit": {
+    "dialogTitle": "Neue Idee einreichen",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Kurzer, aussagekräftiger Titel",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Beschreibe deine Idee im Detail...",
+    "cancel": "Abbrechen",
+    "submit": "Idee einreichen",
+    "submitting": "Wird eingereicht...",
+    "error": "Idee konnte nicht eingereicht werden. Bitte erneut versuchen."
+  },
+  "edit": {
+    "dialogTitle": "Idee bearbeiten",
+    "saveChanges": "Änderungen speichern",
+    "saving": "Wird gespeichert...",
+    "error": "Idee konnte nicht aktualisiert werden. Bitte erneut versuchen."
+  },
+  "delete": {
+    "title": "Diese Idee löschen?",
+    "description": "Diese Aktion kann nicht rückgängig gemacht werden. Die Idee und alle zugehörigen Votes werden dauerhaft gelöscht.",
+    "cancel": "Abbrechen",
+    "confirm": "Löschen",
+    "deleting": "Wird gelöscht…"
+  },
+  "vote": {
+    "upvote": "Upvote",
+    "downvote": "Downvote"
+  },
+  "translation": {
+    "translatedFrom": "Übersetzt aus dem {{lang}}",
+    "unavailable": "Übersetzung nicht verfügbar",
+    "loading": "Wird übersetzt..."
+  },
+  "auth": {
+    "welcomeBack": "Willkommen zurück",
+    "loginDescription": "Gib deine Anmeldedaten ein.",
+    "loginForAction": "Bitte melde dich an, um {{action}}.",
+    "email": "E-Mail",
+    "emailPlaceholder": "du@beispiel.de",
+    "password": "Passwort",
+    "passwordPlaceholder": "Dein Passwort",
+    "signIn": "Anmelden",
+    "signingIn": "Wird angemeldet...",
+    "noAccount": "Noch kein Konto?",
+    "signUpLink": "Registrieren",
+    "createAccount": "Konto erstellen",
+    "signUpDescription": "Registriere dich, um Ideen einzureichen und abzustimmen.",
+    "newPasswordPlaceholder": "Mindestens 8 Zeichen",
+    "passwordHint": "Muss mindestens 8 Zeichen lang sein.",
+    "signUpButton": "Registrieren",
+    "signingUp": "Wird registriert...",
+    "alreadyAccount": "Bereits ein Konto?",
+    "signInLink": "Anmelden",
+    "checkEmail": "Überprüfe deine E-Mails",
+    "confirmationSent": "Wir haben einen Bestätigungslink an {{email}} gesendet. Bitte klicke auf den Link, um dein Konto zu aktivieren.",
+    "resendEmail": "Bestätigungs-E-Mail erneut senden",
+    "resending": "Wird gesendet...",
+    "emailResent": "E-Mail gesendet",
+    "backToSignIn": "Zurück zur Anmeldung",
+    "resentSuccess": "Bestätigungs-E-Mail erfolgreich erneut gesendet.",
+    "resentError": "Senden fehlgeschlagen. Bitte in einem Moment erneut versuchen.",
+    "errorEmailRequired": "E-Mail ist erforderlich.",
+    "errorValidEmail": "Bitte eine gültige E-Mail-Adresse eingeben.",
+    "errorPasswordRequired": "Passwort ist erforderlich.",
+    "errorPasswordLength": "Passwort muss mindestens 8 Zeichen lang sein.",
+    "errorInvalidCredentials": "Ungültige E-Mail oder Passwort.",
+    "errorUnexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte erneut versuchen.",
+    "errorAlreadyRegistered": "Ein Konto mit dieser E-Mail existiert bereits.",
+    "errorAuthFailed": "Der Bestätigungslink ist ungültig oder abgelaufen. Bitte erneut registrieren oder einen neuen Link anfordern."
+  }
+}

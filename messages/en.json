@@ -1,0 +1,102 @@
+{
+  "nav": {
+    "voteBoard": "VoteBoard",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign out"
+  },
+  "ideas": {
+    "title": "Feature Ideas",
+    "subtitle_one": "{{count}} idea · Vote for the features you want most",
+    "subtitle_other": "{{count}} ideas · Vote for the features you want most",
+    "submitIdea": "Submit Idea",
+    "searchPlaceholder": "Search ideas...",
+    "clearSearch": "Clear search",
+    "mostVotes": "Most Votes",
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "emptyTitle": "No ideas yet.",
+    "emptySubtitle": "Be the first to submit an idea!",
+    "noResultsTitle": "No ideas match your search.",
+    "noResultsSubtitle": "Try different keywords or",
+    "noResultsClear": "clear the filters"
+  },
+  "status": {
+    "new": "New",
+    "planned": "Planned",
+    "in_progress": "In Progress",
+    "done": "Done"
+  },
+  "submit": {
+    "dialogTitle": "Submit a New Idea",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Short, descriptive title",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe your idea in detail...",
+    "cancel": "Cancel",
+    "submit": "Submit Idea",
+    "submitting": "Submitting...",
+    "error": "Failed to submit idea. Please try again."
+  },
+  "edit": {
+    "dialogTitle": "Edit Idea",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "error": "Failed to update idea. Please try again."
+  },
+  "delete": {
+    "title": "Delete this idea?",
+    "description": "This action cannot be undone. The idea and all its votes will be permanently deleted.",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "deleting": "Deleting…"
+  },
+  "vote": {
+    "upvote": "Upvote",
+    "downvote": "Downvote"
+  },
+  "translation": {
+    "translatedFrom": "Translated from {{lang}}",
+    "unavailable": "Translation unavailable",
+    "loading": "Translating..."
+  },
+  "auth": {
+    "welcomeBack": "Welcome back",
+    "loginDescription": "Enter your credentials to sign in.",
+    "loginForAction": "Please log in to {{action}}.",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Your password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUpLink": "Sign up",
+    "createAccount": "Create an account",
+    "signUpDescription": "Sign up to submit ideas and vote on features.",
+    "newPasswordPlaceholder": "At least 8 characters",
+    "passwordHint": "Must be at least 8 characters.",
+    "signUpButton": "Sign Up",
+    "signingUp": "Creating account...",
+    "alreadyAccount": "Already have an account?",
+    "signInLink": "Sign in",
+    "checkEmail": "Check your email",
+    "confirmationSent": "We sent a confirmation link to {{email}}. Please click the link to activate your account.",
+    "resendEmail": "Resend confirmation email",
+    "resending": "Resending...",
+    "emailResent": "Email resent",
+    "backToSignIn": "Back to Sign In",
+    "resentSuccess": "Confirmation email resent successfully.",
+    "resentError": "Failed to resend. Please try again in a moment.",
+    "errorEmailRequired": "Email is required.",
+    "errorValidEmail": "Please enter a valid email address.",
+    "errorPasswordRequired": "Password is required.",
+    "errorPasswordLength": "Password must be at least 8 characters.",
+    "errorInvalidCredentials": "Invalid email or password.",
+    "errorUnexpected": "An unexpected error occurred. Please try again.",
+    "errorAlreadyRegistered": "An account with this email already exists.",
+    "errorAuthFailed": "The confirmation link is invalid or has expired. Please sign up again or request a new link."
+  }
+}

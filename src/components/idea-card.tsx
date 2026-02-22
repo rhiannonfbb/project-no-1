@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import type { Idea, IdeaStatus, UserVotes } from "@/types"
+import { useLanguage } from "@/hooks/use-language"
 
 import { VoteButtons } from "@/components/vote-buttons"
 import { StatusBadge } from "@/components/status-badge"
@@ -36,21 +37,64 @@ interface IdeaCardProps {
   currentUserId: string | null
 }
 
-const STATUS_OPTIONS: { value: IdeaStatus; label: string }[] = [
-  { value: "new",         label: "New" },
-  { value: "planned",     label: "Planned" },
-  { value: "in_progress", label: "In Progress" },
-  { value: "done",        label: "Done" },
+const STATUS_OPTIONS: { value: IdeaStatus; labelKey: string }[] = [
+  { value: "new",         labelKey: "status.new" },
+  { value: "planned",     labelKey: "status.planned" },
+  { value: "in_progress", labelKey: "status.in_progress" },
+  { value: "done",        labelKey: "status.done" },
 ]
 
 export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardProps) {
   const router = useRouter()
+  const { t, locale } = useLanguage()
   const [showEdit, setShowEdit] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [translatedTitle, setTranslatedTitle] = useState<string | null>(null)
+  const [translatedDesc, setTranslatedDesc] = useState<string | null>(null)
+  const [translationState, setTranslationState] = useState<"idle" | "loading" | "done" | "error">("idle")
 
   const isOwner = currentUserId === idea.user_id
   const userVote = userVotes[idea.id] ?? null
+  const needsTranslation = idea.original_language && locale !== idea.original_language
+
+  useEffect(() => {
+    if (!needsTranslation) {
+      setTranslatedTitle(null)
+      setTranslatedDesc(null)
+      setTranslationState("idle")
+      return
+    }
+
+    // Use cached translation if available
+    const cached = idea.translations?.[locale]
+    if (cached) {
+      setTranslatedTitle(cached.title)
+      setTranslatedDesc(cached.description)
+      setTranslationState("done")
+      return
+    }
+
+    // Fetch translation from API
+    setTranslationState("loading")
+    fetch("/api/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ideaId: idea.id, targetLocale: locale }),
+    })
+      .then((r) => r.json())
+      .then((data: { title?: string; description?: string }) => {
+        if (data.title && data.description) {
+          setTranslatedTitle(data.title)
+          setTranslatedDesc(data.description)
+          setTranslationState("done")
+        } else {
+          setTranslationState("error")
+        }
+      })
+      .catch(() => setTranslationState("error"))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idea.id, locale, needsTranslation])
 
   const handleDelete = async () => {
     setDeleting(true)
@@ -63,11 +107,14 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
     router.refresh()
   }
 
+  const displayTitle = translatedTitle ?? idea.title
+  const displayDescription = translatedDesc ?? idea.description
+
   // Truncate description to ~200 chars for the list view
-  const truncated = idea.description.length > 200
-  const displayDescription = truncated
-    ? idea.description.slice(0, 200) + "…"
-    : idea.description
+  const truncated = displayDescription.length > 200
+  const shortDescription = truncated ? displayDescription.slice(0, 200) + "…" : displayDescription
+
+  const dateLocale = locale === "de" ? "de-DE" : "en-US"
 
   return (
     <>
@@ -86,7 +133,7 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-base font-semibold leading-snug">{idea.title}</h3>
+                <h3 className="text-base font-semibold leading-snug">{displayTitle}</h3>
                 <StatusBadge status={idea.status} />
               </div>
 
@@ -99,7 +146,7 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
                       size="icon"
                       className="h-7 w-7"
                       onClick={() => setShowEdit(true)}
-                      aria-label="Edit idea"
+                      aria-label={t("edit.dialogTitle")}
                     >
                       <Pencil className="h-3.5 w-3.5" />
                     </Button>
@@ -110,7 +157,7 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
                       size="icon"
                       className="h-7 w-7 text-destructive hover:text-destructive"
                       onClick={() => setShowDelete(true)}
-                      aria-label="Delete idea"
+                      aria-label={t("delete.title")}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
@@ -119,18 +166,36 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
               )}
             </div>
 
-            <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
-              {displayDescription}
-            </p>
+            {translationState === "loading" ? (
+              <p className="mt-1 text-sm text-muted-foreground/60 italic animate-pulse">
+                {t("translation.loading")}
+              </p>
+            ) : (
+              <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                {shortDescription}
+              </p>
+            )}
 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs text-muted-foreground">
-                {new Date(idea.created_at).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">
+                  {new Date(idea.created_at).toLocaleDateString(dateLocale, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
+                {translationState === "done" && (
+                  <span className="text-xs text-muted-foreground/70 italic">
+                    {t("translation.translatedFrom", { lang: (idea.original_language ?? "").toUpperCase() })}
+                  </span>
+                )}
+                {translationState === "error" && needsTranslation && (
+                  <span className="text-xs text-muted-foreground/70 italic">
+                    {t("translation.unavailable")}
+                  </span>
+                )}
+              </div>
 
               {/* Admin: status change dropdown */}
               {isAdmin && (
@@ -141,7 +206,7 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
                   <SelectContent>
                     {STATUS_OPTIONS.map((opt) => (
                       <SelectItem key={opt.value} value={opt.value} className="text-xs">
-                        {opt.label}
+                        {t(opt.labelKey)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -161,19 +226,19 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
       <AlertDialog open={showDelete} onOpenChange={setShowDelete}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete this idea?</AlertDialogTitle>
+            <AlertDialogTitle>{t("delete.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. The idea and all its votes will be permanently deleted.
+              {t("delete.description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("delete.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={deleting}
               className="bg-destructive hover:bg-destructive/90"
             >
-              {deleting ? "Deleting…" : "Delete"}
+              {deleting ? t("delete.deleting") : t("delete.confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

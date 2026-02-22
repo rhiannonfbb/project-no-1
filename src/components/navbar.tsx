@@ -2,6 +2,8 @@
 
 import Link from "next/link"
 import { useAuth } from "@/hooks/use-auth"
+import { useLanguage } from "@/hooks/use-language"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -15,6 +17,7 @@ import { LogOut, User } from "lucide-react"
 
 export function Navbar() {
   const { user, loading, signOut } = useAuth()
+  const { t } = useLanguage()
 
   const handleSignOut = async () => {
     await signOut()
@@ -33,10 +36,12 @@ export function Navbar() {
           href="/"
           className="text-lg font-semibold tracking-tight hover:opacity-80 transition-opacity"
         >
-          VoteBoard
+          {t("nav.voteBoard")}
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+
           {loading ? (
             <Skeleton className="h-8 w-20" />
           ) : user ? (
@@ -48,35 +53,31 @@ export function Navbar() {
                   aria-label="User menu"
                 >
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback className="text-xs">
-                      {userInitial}
-                    </AvatarFallback>
+                    <AvatarFallback className="text-xs">{userInitial}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="flex items-center gap-2 px-2 py-1.5">
                   <User className="h-4 w-4 text-muted-foreground" />
-                  <p className="truncate text-sm text-muted-foreground">
-                    {user.email}
-                  </p>
+                  <p className="truncate text-sm text-muted-foreground">{user.email}</p>
                 </div>
                 <DropdownMenuItem
                   onClick={handleSignOut}
                   className="cursor-pointer text-destructive focus:text-destructive"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Log out
+                  {t("nav.signOut")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Sign In</Link>
+                <Link href="/login">{t("nav.signIn")}</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/signup">Sign Up</Link>
+                <Link href="/signup">{t("nav.signUp")}</Link>
               </Button>
             </>
           )}

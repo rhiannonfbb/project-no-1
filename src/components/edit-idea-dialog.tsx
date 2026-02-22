@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ideaSchema, type IdeaFormValues } from "@/lib/validations"
 import { supabase } from "@/lib/supabase"
 import type { Idea } from "@/types"
+import { useLanguage } from "@/hooks/use-language"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -29,6 +30,7 @@ interface EditIdeaDialogProps {
 
 export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps) {
   const router = useRouter()
+  const { t } = useLanguage()
   const [serverError, setServerError] = useState<string | null>(null)
 
   const {
@@ -52,7 +54,7 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
       .eq("id", idea.id)
 
     if (error) {
-      setServerError("Failed to update idea. Please try again.")
+      setServerError(t("edit.error"))
       return
     }
 
@@ -64,7 +66,7 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Edit Idea</DialogTitle>
+          <DialogTitle>{t("edit.dialogTitle")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-2">
@@ -77,7 +79,7 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
 
           <div className="space-y-2">
             <div className="flex justify-between">
-              <Label htmlFor="edit-title">Title</Label>
+              <Label htmlFor="edit-title">{t("submit.titleLabel")}</Label>
               <span className="text-xs text-muted-foreground">{titleLength}/100</span>
             </div>
             <Input
@@ -92,7 +94,7 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
 
           <div className="space-y-2">
             <div className="flex justify-between">
-              <Label htmlFor="edit-description">Description</Label>
+              <Label htmlFor="edit-description">{t("submit.descriptionLabel")}</Label>
               <span className="text-xs text-muted-foreground">{descLength}/2000</span>
             </div>
             <Textarea
@@ -108,12 +110,12 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("submit.cancel")}
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Saving...</>
-              ) : "Save Changes"}
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t("edit.saving")}</>
+              ) : t("edit.saveChanges")}
             </Button>
           </div>
         </form>
