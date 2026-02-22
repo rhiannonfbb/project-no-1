@@ -62,8 +62,10 @@ function LoginForm() {
         return
       }
 
-      // Use window.location.href for reliable post-login redirect
-      window.location.href = returnTo ?? "/"
+      // Only redirect to relative paths to prevent open-redirect attacks
+      const safeReturnTo = returnTo && returnTo.startsWith("/") ? returnTo : "/"
+      // eslint-disable-next-line react-hooks/immutability
+      window.location.href = safeReturnTo
     } catch {
       setServerError("An unexpected error occurred. Please try again.")
       setIsSubmitting(false)

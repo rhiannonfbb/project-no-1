@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useAuth } from "@/hooks/use-auth"
 import { signupSchema, type SignupFormValues } from "@/lib/validations"
+import { supabase } from "@/lib/supabase"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,7 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react"
+import { AlertCircle, CheckCircle2, Loader2, RefreshCw } from "lucide-react"
 
 export default function SignupPage() {
   const { signUp } = useAuth()
@@ -28,6 +29,8 @@ export default function SignupPage() {
   const [serverError, setServerError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
+  const [confirmedEmail, setConfirmedEmail] = useState("")
+  const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
 
   const {
     register,
@@ -52,6 +55,7 @@ export default function SignupPage() {
       }
 
       if (confirmEmail) {
+        setConfirmedEmail(values.email)
         setEmailSent(true)
       }
     } catch {
@@ -59,6 +63,12 @@ export default function SignupPage() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleResend = async () => {
+    setResendStatus("sending")
+    const { error } = await supabase.auth.resend({ type: "signup", email: confirmedEmail })
+    setResendStatus(error ? "error" : "sent")
   }
 
   if (emailSent) {
@@ -71,12 +81,38 @@ export default function SignupPage() {
             </div>
             <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
             <CardDescription>
-              We sent a confirmation link to your email address. Please click the
-              link to activate your account.
+              We sent a confirmation link to <strong>{confirmedEmail}</strong>. Please click
+              the link to activate your account.
             </CardDescription>
           </CardHeader>
-          <CardFooter className="flex flex-col gap-4">
-            <Button variant="outline" className="w-full" asChild>
+          <CardFooter className="flex flex-col gap-3">
+            {resendStatus === "sent" && (
+              <Alert className="border-green-200 bg-green-50 text-green-800">
+                <CheckCircle2 className="h-4 w-4" />
+                <AlertDescription>Confirmation email resent successfully.</AlertDescription>
+              </Alert>
+            )}
+            {resendStatus === "error" && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>Failed to resend. Please try again in a moment.</AlertDescription>
+              </Alert>
+            )}
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={handleResend}
+              disabled={resendStatus === "sending" || resendStatus === "sent"}
+            >
+              {resendStatus === "sending" ? (
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Resending...</>
+              ) : resendStatus === "sent" ? (
+                <><CheckCircle2 className="mr-2 h-4 w-4" />Email resent</>
+              ) : (
+                <><RefreshCw className="mr-2 h-4 w-4" />Resend confirmation email</>
+              )}
+            </Button>
+            <Button variant="ghost" className="w-full" asChild>
               <Link href="/login">Back to Sign In</Link>
             </Button>
           </CardFooter>
