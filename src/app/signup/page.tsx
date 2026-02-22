@@ -82,11 +82,11 @@ export default function SignupPage() {
               <CheckCircle2 className="h-6 w-6 text-green-600" />
             </div>
             <CardTitle className="text-2xl font-bold">{t("auth.checkEmail")}</CardTitle>
-            <CardDescription
-              dangerouslySetInnerHTML={{
-                __html: t("auth.confirmationSent", { email: `<strong>${confirmedEmail}</strong>` }),
-              }}
-            />
+            <CardDescription>
+              {t("auth.confirmationSentPre")}{" "}
+              <strong>{confirmedEmail}</strong>.{" "}
+              {t("auth.confirmationSentPost")}
+            </CardDescription>
           </CardHeader>
           <CardFooter className="flex flex-col gap-3">
             {resendStatus === "sent" && (
