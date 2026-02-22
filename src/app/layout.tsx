@@ -19,11 +19,13 @@ export default async function RootLayout({
   const rawLocale = cookieStore.get("NEXT_LOCALE")?.value;
   const initialLocale: Locale =
     rawLocale === "de" || rawLocale === "en" ? rawLocale : "de";
+  // True only when the cookie was explicitly set — used to skip browser-language detection
+  const localeExplicit = rawLocale === "de" || rawLocale === "en";
 
   return (
     <html lang={initialLocale}>
       <body className="antialiased">
-        <ClientProviders initialLocale={initialLocale}>
+        <ClientProviders initialLocale={initialLocale} localeExplicit={localeExplicit}>
           {children}
         </ClientProviders>
       </body>

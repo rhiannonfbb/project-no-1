@@ -8,12 +8,13 @@ import type { Locale } from "@/types"
 interface ClientProvidersProps {
   children: React.ReactNode
   initialLocale: Locale
+  localeExplicit: boolean
 }
 
-export function ClientProviders({ children, initialLocale }: ClientProvidersProps) {
+export function ClientProviders({ children, initialLocale, localeExplicit }: ClientProvidersProps) {
   return (
     <AuthProvider>
-      <LanguageProvider initialLocale={initialLocale}>
+      <LanguageProvider initialLocale={initialLocale} localeExplicit={localeExplicit}>
         <Navbar />
         <main>{children}</main>
       </LanguageProvider>
