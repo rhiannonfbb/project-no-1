@@ -140,7 +140,17 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
   }
 
   const handleStatusChange = async (newStatus: IdeaStatus) => {
+    const wasNew = idea.status === "new"
     await supabase.from("ideas").update({ status: newStatus }).eq("id", idea.id)
+    // PROJ-7: Die erste Statusänderung weg von "new" gilt als Freigabe → Asana-Aufgabe anlegen.
+    // Fehler blockieren die Anzeige nicht; die Route ist idempotent.
+    if (wasNew && newStatus !== "new") {
+      await fetch("/api/asana", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ideaId: idea.id }),
+      }).catch(() => null)
+    }
     router.refresh()
   }
 
@@ -170,7 +180,7 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-base font-semibold leading-snug">{displayTitle}</h3>
+                <h3 className="title">{displayTitle}</h3>
                 <StatusBadge status={idea.status} />
               </div>
 
