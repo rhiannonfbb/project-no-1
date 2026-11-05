@@ -20,8 +20,8 @@
   },
   "ideas": {
     "title": "Feature-Ideen und Bugs",
-    "subtitle_one": "{{count}} Idee · Stimme für die Features ab, die du dir wünschst",
-    "subtitle_other": "{{count}} Ideen · Stimme für die Features ab, die du dir wünschst",
+    "subtitle_one": "{{count}} Idee · Stimme für die Features ab, die du dir wünschst. Dokumentiere Deine Bugs und sieh Dir an, was andere gefunden haben.",
+    "subtitle_other": "{{count}} Ideen · Stimme für die Features ab, die du dir wünschst. Dokumentiere Deine Bugs und sieh Dir an, was andere gefunden haben.",
     "submitIdea": "Idee einreichen",
     "searchPlaceholder": "Ideen durchsuchen...",
     "clearSearch": "Suche löschen",
