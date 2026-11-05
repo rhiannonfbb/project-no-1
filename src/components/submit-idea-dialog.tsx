@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { AlertCircle, Bug, Loader2, Plus } from "lucide-react"
+import { AlertCircle, Bug, Lightbulb, Loader2 } from "lucide-react"
 import type { IdeaType } from "@/types"
 
 interface SubmitIdeaDialogProps {
@@ -100,7 +100,7 @@ export function SubmitIdeaDialog({
       <DialogTrigger asChild>
         <Button size="sm" variant={triggerVariant} className="w-full px-3">
           {triggerKey === "ideas.submitIdea" ? (
-            <Plus className="mr-1.5 h-4 w-4" />
+            <Lightbulb className="mr-1.5 h-4 w-4" />
           ) : (
             <Bug className="mr-1.5 h-4 w-4" />
           )}
