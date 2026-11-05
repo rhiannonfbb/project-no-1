@@ -18,6 +18,8 @@ interface AuthContextValue {
   signUp: (email: string, password: string) => Promise<{ error: string | null; confirmEmail: boolean }>
   signIn: (email: string, password: string) => Promise<{ error: string | null }>
   signOut: () => Promise<void>
+  // Liefert den aktuellen Nutzer. Ohne Sitzung wird eine anonyme Sitzung angelegt.
+  ensureUser: () => Promise<User | null>
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -96,8 +98,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }, [])
 
+  const ensureUser = useCallback(async () => {
+    const { data: current } = await supabase.auth.getSession()
+    if (current.session) return current.session.user
+
+    const { data, error } = await supabase.auth.signInAnonymously()
+    if (error || !data.session) return null
+    setSession(data.session)
+    setUser(data.session.user)
+    return data.session.user
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ user, session, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, signUp, signIn, signOut, ensureUser }}>
       {children}
     </AuthContext.Provider>
   )

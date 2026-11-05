@@ -44,7 +44,7 @@ export function Navbar() {
 
           {loading ? (
             <Skeleton className="h-8 w-20" />
-          ) : user ? (
+          ) : user && !user.is_anonymous ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

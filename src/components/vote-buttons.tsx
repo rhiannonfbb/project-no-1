@@ -15,7 +15,7 @@ interface VoteButtonsProps {
 }
 
 export function VoteButtons({ ideaId, initialScore, initialUserVote }: VoteButtonsProps) {
-  const { user } = useAuth()
+  const { ensureUser } = useAuth()
   const { t } = useLanguage()
   const [score, setScore] = useState(initialScore)
   const [userVote, setUserVote] = useState<1 | -1 | null>(initialUserVote)
@@ -24,10 +24,9 @@ export function VoteButtons({ ideaId, initialScore, initialUserVote }: VoteButto
   const handleVote = async (value: 1 | -1) => {
     if (loading) return
 
-    if (!user) {
-      window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname)}&action=vote`
-      return
-    }
+    // Ohne Sitzung wird stillschweigend eine anonyme Sitzung angelegt.
+    const user = await ensureUser()
+    if (!user) return
 
     // Compute optimistic new state
     let newScore = score
