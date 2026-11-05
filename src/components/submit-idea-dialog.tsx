@@ -98,7 +98,7 @@ export function SubmitIdeaDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" variant={triggerVariant} className="shrink-0 px-3">
+        <Button size="sm" variant={triggerVariant} className="w-full px-3">
           {triggerKey === "ideas.submitIdea" ? (
             <Plus className="mr-1.5 h-4 w-4" />
           ) : (

@@ -77,7 +77,7 @@ export function IdeaBoard({ ideas, userVotes, isAdmin, currentUserId }: IdeaBoar
             {t(ideas.length === 1 ? "ideas.subtitle_one" : "ideas.subtitle_other", { count: ideas.length })}
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex w-full shrink-0 flex-col gap-2 sm:w-44">
           <SubmitIdeaDialog />
           <SubmitIdeaDialog
             defaultType="bug"
