@@ -10,13 +10,20 @@
     "titleRequired": "Titel ist erforderlich.",
     "titleMax": "Titel darf maximal 100 Zeichen lang sein.",
     "descriptionRequired": "Beschreibung ist erforderlich.",
-    "descriptionMax": "Beschreibung darf maximal 2000 Zeichen lang sein."
+    "descriptionMax": "Beschreibung darf maximal 2000 Zeichen lang sein.",
+    "typeRequired": "Bitte wähle Feature oder Bug."
+  },
+  "type": {
+    "feature": "Feature",
+    "bug": "Bug",
+    "label": "Art"
   },
   "ideas": {
-    "title": "Feature-Ideen",
-    "subtitle_one": "{{count}} Idee · Stimme für die Features ab, die du dir wünschst",
-    "subtitle_other": "{{count}} Ideen · Stimme für die Features ab, die du dir wünschst",
+    "title": "Feature-Ideen und Bugs",
+    "subtitle_one": "{{count}} Idee · Stimme für die Features ab, die du dir wünschst. Dokumentiere Deine Bugs und sieh Dir an, was andere gefunden haben.",
+    "subtitle_other": "{{count}} Ideen · Stimme für die Features ab, die du dir wünschst. Dokumentiere Deine Bugs und sieh Dir an, was andere gefunden haben.",
     "submitIdea": "Idee einreichen",
+    "reportBug": "Bug dokumentieren",
     "searchPlaceholder": "Ideen durchsuchen...",
     "clearSearch": "Suche löschen",
     "mostVotes": "Meiste Votes",
@@ -38,6 +45,7 @@
   },
   "submit": {
     "dialogTitle": "Neue Idee einreichen",
+    "bugDialogTitle": "Bug dokumentieren",
     "titleLabel": "Titel",
     "titlePlaceholder": "Kurzer, aussagekräftiger Titel",
     "descriptionLabel": "Beschreibung",

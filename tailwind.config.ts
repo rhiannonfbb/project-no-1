@@ -8,6 +8,12 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      sans: ["var(--font-sans)", "system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
+      display: ["var(--font-display)", "Georgia", "Times New Roman", "serif"],
+      serif: ["var(--font-display)", "Georgia", "Times New Roman", "serif"],
+      mono: ["var(--font-mono)", "ui-monospace", "Menlo", "Consolas", "monospace"],
+    },
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',

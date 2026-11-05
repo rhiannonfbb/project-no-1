@@ -10,13 +10,20 @@
     "titleRequired": "Title is required.",
     "titleMax": "Title must be at most 100 characters.",
     "descriptionRequired": "Description is required.",
-    "descriptionMax": "Description must be at most 2000 characters."
+    "descriptionMax": "Description must be at most 2000 characters.",
+    "typeRequired": "Please choose Feature or Bug."
+  },
+  "type": {
+    "feature": "Feature",
+    "bug": "Bug",
+    "label": "Type"
   },
   "ideas": {
-    "title": "Feature Ideas",
-    "subtitle_one": "{{count}} idea · Vote for the features you want most",
-    "subtitle_other": "{{count}} ideas · Vote for the features you want most",
+    "title": "Feature Ideas and Bugs",
+    "subtitle_one": "{{count}} idea · Vote for the features you want most. Document your bugs and see what others have found.",
+    "subtitle_other": "{{count}} ideas · Vote for the features you want most. Document your bugs and see what others have found.",
     "submitIdea": "Submit Idea",
+    "reportBug": "Document bug",
     "searchPlaceholder": "Search ideas...",
     "clearSearch": "Clear search",
     "mostVotes": "Most Votes",
@@ -38,6 +45,7 @@
   },
   "submit": {
     "dialogTitle": "Submit a New Idea",
+    "bugDialogTitle": "Document a bug",
     "titleLabel": "Title",
     "titlePlaceholder": "Short, descriptive title",
     "descriptionLabel": "Description",

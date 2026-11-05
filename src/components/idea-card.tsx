@@ -9,6 +9,7 @@ import { useLanguage } from "@/hooks/use-language"
 import { VoteButtons } from "@/components/vote-buttons"
 import { StatusBadge } from "@/components/status-badge"
 import { EditIdeaDialog } from "@/components/edit-idea-dialog"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -140,7 +141,17 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
   }
 
   const handleStatusChange = async (newStatus: IdeaStatus) => {
+    const wasNew = idea.status === "new"
     await supabase.from("ideas").update({ status: newStatus }).eq("id", idea.id)
+    // PROJ-7: Die erste Statusänderung weg von "new" gilt als Freigabe → Asana-Aufgabe anlegen.
+    // Fehler blockieren die Anzeige nicht; die Route ist idempotent.
+    if (wasNew && newStatus !== "new") {
+      await fetch("/api/asana", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ideaId: idea.id }),
+      }).catch(() => null)
+    }
     router.refresh()
   }
 
@@ -170,7 +181,13 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-base font-semibold leading-snug">{displayTitle}</h3>
+                <h3 className="title">{displayTitle}</h3>
+                <Badge
+                  variant="outline"
+                  className={idea.idea_type === "bug" ? "border-red-300 text-red-700" : "border-blue-300 text-blue-700"}
+                >
+                  {t(`type.${idea.idea_type ?? "feature"}`)}
+                </Badge>
                 <StatusBadge status={idea.status} />
               </div>
 

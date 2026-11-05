@@ -81,7 +81,7 @@ export default function SignupPage() {
             <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
               <CheckCircle2 className="h-6 w-6 text-green-600" />
             </div>
-            <CardTitle className="text-2xl font-bold">{t("auth.checkEmail")}</CardTitle>
+            <CardTitle className="font-display text-[28px] font-semibold leading-[1.15]">{t("auth.checkEmail")}</CardTitle>
             <CardDescription>
               {t("auth.confirmationSentPre")}{" "}
               <strong>{confirmedEmail}</strong>.{" "}
@@ -128,7 +128,7 @@ export default function SignupPage() {
     <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4 py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">{t("auth.createAccount")}</CardTitle>
+          <CardTitle className="font-display text-[28px] font-semibold leading-[1.15]">{t("auth.createAccount")}</CardTitle>
           <CardDescription>{t("auth.signUpDescription")}</CardDescription>
         </CardHeader>
 

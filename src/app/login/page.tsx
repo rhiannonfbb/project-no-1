@@ -76,7 +76,7 @@ function LoginForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">{t("auth.welcomeBack")}</CardTitle>
+        <CardTitle className="font-display text-[28px] font-semibold leading-[1.15]">{t("auth.welcomeBack")}</CardTitle>
         <CardDescription>
           {action
             ? t("auth.loginForAction", { action })

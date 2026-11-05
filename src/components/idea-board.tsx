@@ -72,12 +72,20 @@ export function IdeaBoard({ ideas, userVotes, isAdmin, currentUserId }: IdeaBoar
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">{t("ideas.title")}</h1>
+          <h1 className="h1-page">{t("ideas.title")}</h1>
           <p className="text-sm text-muted-foreground mt-0.5">
             {t(ideas.length === 1 ? "ideas.subtitle_one" : "ideas.subtitle_other", { count: ideas.length })}
           </p>
         </div>
-        <SubmitIdeaDialog />
+        <div className="flex w-full shrink-0 flex-col gap-2 sm:w-44">
+          <SubmitIdeaDialog />
+          <SubmitIdeaDialog
+            defaultType="bug"
+            triggerKey="ideas.reportBug"
+            dialogTitleKey="submit.bugDialogTitle"
+            triggerVariant="outline"
+          />
+        </div>
       </div>
 
       {/* Search + Sort */}
