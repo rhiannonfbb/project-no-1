@@ -44,14 +44,14 @@
     "done": "Done"
   },
   "submit": {
-    "dialogTitle": "Submit a New Idea",
+    "dialogTitle": "Submit a feature or document a bug",
     "bugDialogTitle": "Document a bug",
     "titleLabel": "Title",
     "titlePlaceholder": "Short, descriptive title",
     "descriptionLabel": "Description",
     "descriptionPlaceholder": "Describe your idea in detail...",
     "cancel": "Cancel",
-    "submit": "Submit Idea",
+    "submit": "Submit",
     "submitting": "Submitting...",
     "error": "Failed to submit idea. Please try again."
   },
