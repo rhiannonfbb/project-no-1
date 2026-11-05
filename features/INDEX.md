@@ -20,7 +20,8 @@
 | PROJ-6 | Language Switcher (DE/EN) | Deployed | [Spec](PROJ-6-language-switcher.md) | 2026-02-20 |
 | PROJ-7 | Asana-Anbindung (Freigabe → Aufgabe) | In Progress | [Spec](PROJ-7-asana-anbindung.md) | 2026-11-04 |
 | PROJ-8 | Feature oder Bug kennzeichnen | In Progress | [Spec](PROJ-8-idea-type.md) | 2026-11-05 |
+| PROJ-9 | Anonymes Abstimmen und Einreichen | In Progress | [Spec](PROJ-9-anonymes-abstimmen.md) | 2026-11-05 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-9
+## Next Available ID: PROJ-10

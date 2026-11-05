@@ -44,7 +44,7 @@ export function SubmitIdeaDialog({
   dialogTitleKey = "submit.dialogTitle",
   triggerVariant = "default",
 }: SubmitIdeaDialogProps) {
-  const { user } = useAuth()
+  const { ensureUser } = useAuth()
   const { t, locale } = useLanguage()
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -66,21 +66,23 @@ export function SubmitIdeaDialog({
   const descLength = watch("description")?.length ?? 0
 
   const handleOpen = (value: boolean) => {
-    if (value && !user) {
-      window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname)}&action=${encodeURIComponent(t("submit.submit").toLowerCase())}`
-      return
-    }
     setOpen(value)
     if (!value) reset()
   }
 
   const onSubmit = async (values: IdeaFormValues) => {
     setServerError(null)
+    // Ohne Sitzung wird stillschweigend eine anonyme Sitzung angelegt.
+    const author = await ensureUser()
+    if (!author) {
+      setServerError(t("submit.error"))
+      return
+    }
     const { error } = await supabase.from("ideas").insert({
       title: values.title.trim(),
       description: values.description.trim(),
       idea_type: values.type,
-      user_id: user!.id,
+      user_id: author.id,
       original_language: locale,
       translations: { [locale]: { title: values.title.trim(), description: values.description.trim() } },
     })
