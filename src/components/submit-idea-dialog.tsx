@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ideaSchema, type IdeaFormValues } from "@/lib/validations"
 import { supabase } from "@/lib/supabase"
@@ -21,6 +21,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { AlertCircle, Loader2, Plus } from "lucide-react"
 
 export function SubmitIdeaDialog() {
@@ -35,10 +42,11 @@ export function SubmitIdeaDialog() {
     handleSubmit,
     reset,
     watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaSchema),
-    defaultValues: { title: "", description: "" },
+    defaultValues: { title: "", description: "", type: "feature" },
   })
 
   const titleLength = watch("title")?.length ?? 0
@@ -58,6 +66,7 @@ export function SubmitIdeaDialog() {
     const { error } = await supabase.from("ideas").insert({
       title: values.title.trim(),
       description: values.description.trim(),
+      idea_type: values.type,
       user_id: user!.id,
       original_language: locale,
       translations: { [locale]: { title: values.title.trim(), description: values.description.trim() } },
@@ -109,6 +118,25 @@ export function SubmitIdeaDialog() {
             {errors.title && (
               <p className="text-sm text-destructive" role="alert">{t(errors.title.message!)}</p>
             )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="type">{t("type.label")}</Label>
+            <Controller
+              control={control}
+              name="type"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger id="type" aria-invalid={!!errors.type}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="feature">{t("type.feature")}</SelectItem>
+                    <SelectItem value="bug">{t("type.bug")}</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
 
           <div className="space-y-2">

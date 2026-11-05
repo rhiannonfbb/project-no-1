@@ -9,6 +9,7 @@ import { useLanguage } from "@/hooks/use-language"
 import { VoteButtons } from "@/components/vote-buttons"
 import { StatusBadge } from "@/components/status-badge"
 import { EditIdeaDialog } from "@/components/edit-idea-dialog"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -181,6 +182,12 @@ export function IdeaCard({ idea, userVotes, isAdmin, currentUserId }: IdeaCardPr
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="title">{displayTitle}</h3>
+                <Badge
+                  variant="outline"
+                  className={idea.idea_type === "bug" ? "border-red-300 text-red-700" : "border-blue-300 text-blue-700"}
+                >
+                  {t(`type.${idea.idea_type ?? "feature"}`)}
+                </Badge>
                 <StatusBadge status={idea.status} />
               </div>
 

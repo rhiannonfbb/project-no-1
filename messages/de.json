@@ -10,10 +10,16 @@
     "titleRequired": "Titel ist erforderlich.",
     "titleMax": "Titel darf maximal 100 Zeichen lang sein.",
     "descriptionRequired": "Beschreibung ist erforderlich.",
-    "descriptionMax": "Beschreibung darf maximal 2000 Zeichen lang sein."
+    "descriptionMax": "Beschreibung darf maximal 2000 Zeichen lang sein.",
+    "typeRequired": "Bitte wähle Feature oder Bug."
+  },
+  "type": {
+    "feature": "Feature",
+    "bug": "Bug",
+    "label": "Art"
   },
   "ideas": {
-    "title": "Feature-Ideen",
+    "title": "Feature-Ideen und Bugs",
     "subtitle_one": "{{count}} Idee · Stimme für die Features ab, die du dir wünschst",
     "subtitle_other": "{{count}} Ideen · Stimme für die Features ab, die du dir wünschst",
     "submitIdea": "Idee einreichen",

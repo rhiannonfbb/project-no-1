@@ -1,6 +1,7 @@
 export type IdeaStatus = 'new' | 'planned' | 'in_progress' | 'done'
 export type SortOption = 'score' | 'newest' | 'oldest'
 export type Locale = 'de' | 'en'
+export type IdeaType = 'feature' | 'bug'
 
 export interface IdeaTranslation {
   title: string
@@ -13,6 +14,7 @@ export interface Idea {
   title: string
   description: string
   status: IdeaStatus
+  idea_type: IdeaType
   score: number
   original_language: string | null
   translations: Record<string, IdeaTranslation> | null

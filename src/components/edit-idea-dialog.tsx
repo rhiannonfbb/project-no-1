@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ideaSchema, type IdeaFormValues } from "@/lib/validations"
 import { supabase } from "@/lib/supabase"
@@ -20,6 +20,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { AlertCircle, Loader2 } from "lucide-react"
 
 interface EditIdeaDialogProps {
@@ -37,10 +44,15 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaSchema),
-    defaultValues: { title: idea.title, description: idea.description },
+    defaultValues: {
+      title: idea.title,
+      description: idea.description,
+      type: idea.idea_type ?? "feature",
+    },
   })
 
   const titleLength = watch("title")?.length ?? 0
@@ -50,7 +62,11 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
     setServerError(null)
     const { error } = await supabase
       .from("ideas")
-      .update({ title: values.title.trim(), description: values.description.trim() })
+      .update({
+        title: values.title.trim(),
+        description: values.description.trim(),
+        idea_type: values.type,
+      })
       .eq("id", idea.id)
 
     if (error) {
@@ -90,6 +106,25 @@ export function EditIdeaDialog({ idea, open, onOpenChange }: EditIdeaDialogProps
             {errors.title && (
               <p className="text-sm text-destructive" role="alert">{t(errors.title.message!)}</p>
             )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="edit-type">{t("type.label")}</Label>
+            <Controller
+              control={control}
+              name="type"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger id="edit-type" aria-invalid={!!errors.type}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="feature">{t("type.feature")}</SelectItem>
+                    <SelectItem value="bug">{t("type.bug")}</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
 
           <div className="space-y-2">

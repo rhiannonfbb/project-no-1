@@ -33,6 +33,7 @@ export const ideaSchema = z.object({
     .string()
     .min(1, { message: "validation.descriptionRequired" })
     .max(2000, { message: "validation.descriptionMax" }),
+  type: z.enum(["feature", "bug"], { error: "validation.typeRequired" }),
 })
 
 export type IdeaFormValues = z.infer<typeof ideaSchema>
