@@ -44,14 +44,14 @@
     "done": "Erledigt"
   },
   "submit": {
-    "dialogTitle": "Neue Idee einreichen",
+    "dialogTitle": "Feature einreichen oder Bug dokumentieren",
     "bugDialogTitle": "Bug dokumentieren",
     "titleLabel": "Titel",
     "titlePlaceholder": "Kurzer, aussagekräftiger Titel",
     "descriptionLabel": "Beschreibung",
     "descriptionPlaceholder": "Beschreibe deine Idee im Detail...",
     "cancel": "Abbrechen",
-    "submit": "Idee einreichen",
+    "submit": "Absenden",
     "submitting": "Wird eingereicht...",
     "error": "Idee konnte nicht eingereicht werden. Bitte erneut versuchen."
   },
