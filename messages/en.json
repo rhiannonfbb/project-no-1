@@ -23,6 +23,7 @@
     "subtitle_one": "{{count}} idea · Vote for the features you want most. Document your bugs and see what others have found.",
     "subtitle_other": "{{count}} ideas · Vote for the features you want most. Document your bugs and see what others have found.",
     "submitIdea": "Submit Idea",
+    "reportBug": "Document bug",
     "searchPlaceholder": "Search ideas...",
     "clearSearch": "Clear search",
     "mostVotes": "Most Votes",
@@ -44,6 +45,7 @@
   },
   "submit": {
     "dialogTitle": "Submit a New Idea",
+    "bugDialogTitle": "Document a bug",
     "titleLabel": "Title",
     "titlePlaceholder": "Short, descriptive title",
     "descriptionLabel": "Description",

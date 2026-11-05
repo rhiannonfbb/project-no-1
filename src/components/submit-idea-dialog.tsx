@@ -28,9 +28,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { AlertCircle, Loader2, Plus } from "lucide-react"
+import { AlertCircle, Bug, Loader2, Plus } from "lucide-react"
+import type { IdeaType } from "@/types"
 
-export function SubmitIdeaDialog() {
+interface SubmitIdeaDialogProps {
+  defaultType?: IdeaType
+  triggerKey?: string
+  dialogTitleKey?: string
+  triggerVariant?: "default" | "outline"
+}
+
+export function SubmitIdeaDialog({
+  defaultType = "feature",
+  triggerKey = "ideas.submitIdea",
+  dialogTitleKey = "submit.dialogTitle",
+  triggerVariant = "default",
+}: SubmitIdeaDialogProps) {
   const { user } = useAuth()
   const { t, locale } = useLanguage()
   const router = useRouter()
@@ -46,7 +59,7 @@ export function SubmitIdeaDialog() {
     formState: { errors, isSubmitting },
   } = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaSchema),
-    defaultValues: { title: "", description: "", type: "feature" },
+    defaultValues: { title: "", description: "", type: defaultType },
   })
 
   const titleLength = watch("title")?.length ?? 0
@@ -85,15 +98,19 @@ export function SubmitIdeaDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          {t("ideas.submitIdea")}
+        <Button size="sm" variant={triggerVariant} className="shrink-0 px-3">
+          {triggerKey === "ideas.submitIdea" ? (
+            <Plus className="mr-1.5 h-4 w-4" />
+          ) : (
+            <Bug className="mr-1.5 h-4 w-4" />
+          )}
+          {t(triggerKey)}
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{t("submit.dialogTitle")}</DialogTitle>
+          <DialogTitle>{t(dialogTitleKey)}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-2">

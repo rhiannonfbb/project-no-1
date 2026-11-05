@@ -23,6 +23,7 @@
     "subtitle_one": "{{count}} Idee · Stimme für die Features ab, die du dir wünschst. Dokumentiere Deine Bugs und sieh Dir an, was andere gefunden haben.",
     "subtitle_other": "{{count}} Ideen · Stimme für die Features ab, die du dir wünschst. Dokumentiere Deine Bugs und sieh Dir an, was andere gefunden haben.",
     "submitIdea": "Idee einreichen",
+    "reportBug": "Bug dokumentieren",
     "searchPlaceholder": "Ideen durchsuchen...",
     "clearSearch": "Suche löschen",
     "mostVotes": "Meiste Votes",
@@ -44,6 +45,7 @@
   },
   "submit": {
     "dialogTitle": "Neue Idee einreichen",
+    "bugDialogTitle": "Bug dokumentieren",
     "titleLabel": "Titel",
     "titlePlaceholder": "Kurzer, aussagekräftiger Titel",
     "descriptionLabel": "Beschreibung",

@@ -77,7 +77,15 @@ export function IdeaBoard({ ideas, userVotes, isAdmin, currentUserId }: IdeaBoar
             {t(ideas.length === 1 ? "ideas.subtitle_one" : "ideas.subtitle_other", { count: ideas.length })}
           </p>
         </div>
-        <SubmitIdeaDialog />
+        <div className="flex shrink-0 items-center gap-2">
+          <SubmitIdeaDialog />
+          <SubmitIdeaDialog
+            defaultType="bug"
+            triggerKey="ideas.reportBug"
+            dialogTitleKey="submit.bugDialogTitle"
+            triggerVariant="outline"
+          />
+        </div>
       </div>
 
       {/* Search + Sort */}
