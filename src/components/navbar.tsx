@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { useAuth } from "@/hooks/use-auth"
 import { useLanguage } from "@/hooks/use-language"
-import { LanguageSwitcher } from "@/components/language-switcher"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -40,7 +39,6 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center gap-3">
-          <LanguageSwitcher />
 
           {loading ? (
             <Skeleton className="h-8 w-20" />
@@ -71,16 +69,7 @@ export function Navbar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">{t("nav.signIn")}</Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link href="/signup">{t("nav.signUp")}</Link>
-              </Button>
-            </>
-          )}
+          ) : null}
         </div>
       </nav>
     </header>
